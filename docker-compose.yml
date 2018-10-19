@@ -1,0 +1,15 @@
+version: '2.0'
+
+services:
+
+  knote-db:
+    image: postgres:10-alpine
+    container_name: postgres
+    ports:
+    - "127.0.0.1:5432:5432"
+    volumes:
+    - ./pgdata/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: knote
+      POSTGRES_PASSWORD: 6qKnlOEghq
+      POSTGRES_DB: knote

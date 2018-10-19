@@ -1,0 +1,46 @@
+# exclude idea files
+.idea
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+wheels/
+.installed.cfg
+MANIFEST
+
+# Environments
+postgres.env
+scraper.env
+.env
+.venv
+env/
+venv/
+
+*.log
+*.db
+*.db-journal
+logs/
+mongodata/
+.DS_Store
+
+*.sqlite3
+pgdata
+datascraper/
+db.sqlite3
+static/
+media/
