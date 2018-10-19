@@ -4,7 +4,7 @@ services:
 
   knote-db:
     image: postgres:10-alpine
-    container_name: postgres
+    container_name: knote-db
     ports:
     - "127.0.0.1:5432:5432"
     volumes:
