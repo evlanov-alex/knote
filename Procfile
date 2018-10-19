@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn lolpix.wsgi:application --log-file -
+web: gunicorn knoteserver.wsgi:application --log-file -
