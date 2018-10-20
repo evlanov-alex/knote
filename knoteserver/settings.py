@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'taggit',
-    'taggit_helpers',
     'taggit_serializer',
 
     'rest_framework',
