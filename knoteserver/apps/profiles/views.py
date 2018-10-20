@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from knoteserver.apps.profiles.models import Profile
+from knoteserver.apps.profiles.serializers import ProfileSerializer
+
+
+class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.select_related('user')

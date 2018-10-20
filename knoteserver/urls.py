@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/', include('knoteserver.apps.authentication.urls', namespace='auth')),
+    path('api/', include('knoteserver.apps.notes.urls', namespace='notes')),
+    path('api/', include('knoteserver.apps.profiles.urls', namespace='profiles')),
 
     path('docs', schema_view),
 ]

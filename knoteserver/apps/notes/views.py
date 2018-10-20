@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from knoteserver.apps.notes.models import Note
+from knoteserver.apps.notes.serializers import NoteSerializer
+
+
+class NoteViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = NoteSerializer
+    queryset = Note.objects.select_related('author', 'author__user')

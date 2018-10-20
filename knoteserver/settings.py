@@ -31,7 +31,7 @@ DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['knote-qa.herokuapp.com', 'knote.gitlab.io']
 
 # Application definition
 
