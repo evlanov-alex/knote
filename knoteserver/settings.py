@@ -45,11 +45,18 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'taggit',
+    'taggit_helpers',
+    'taggit_serializer',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
 
+    'knoteserver.apps.core',
     'knoteserver.apps.authentication',
+    'knoteserver.apps.profiles',
+    'knoteserver.apps.notes',
 ]
 
 MIDDLEWARE = [
@@ -107,6 +114,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
 }
+
+TAGGIT_CASE_INSENSITIVE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
