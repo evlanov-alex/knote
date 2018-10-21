@@ -1,0 +1,1 @@
+default_app_config = 'knoteserver.apps.authentication.apps.AuthenticationConfig'
