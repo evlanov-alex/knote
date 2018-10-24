@@ -7,24 +7,44 @@ from knoteserver.apps.profiles.serializers import ProfileSerializer
 
 
 class NoteAccessSerializer(serializers.ModelSerializer):
-    note = serializers.IntegerField()
+    profile = ProfileSerializer(read_only=True)
+    username = serializers.CharField(write_only=True)
 
     class Meta:
         model = NoteAccess
-        exclude = ('id', )
+        fields = '__all__'
+        extra_kwargs = {
+            'note': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        profile = Profile.objects.get(user__username=validated_data['username'])
+
+        note_access = NoteAccess.objects.create(
+            profile=profile,
+            note=validated_data['note'],
+            can_write=validated_data['can_write'],
+        )
+
+        return note_access
 
 
 class NoteSerializer(serializers.ModelSerializer):
     author = ProfileSerializer(read_only=True)
     tags = TagListSerializerField(required=False)
-    allowed_users = serializers.ListSerializer(child=serializers.CharField(), required=False)
+    access = NoteAccessSerializer(many=True, required=False)
 
     class Meta:
         model = Note
-        fields = ('id', 'author', 'title', 'text', 'tags', 'allowed_users')
+        fields = ('id', 'author', 'title', 'text', 'tags', 'access')
 
-    def validate_allowed_users(self):
-        pass
+    def validate_title(self, title):
+        print(title)
+        return title
+
+    def validate_access(self, access):
+        print(access)
+        return access
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -37,3 +57,5 @@ class NoteSerializer(serializers.ModelSerializer):
         )
 
         note.tags.add(*validated_data.get('tags', []))
+        note.access.add(*validated_data.get('access', []))
+        return note

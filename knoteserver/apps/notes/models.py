@@ -21,8 +21,8 @@ class Note(TimestampedModel):
 
 
 class NoteAccess(TimestampedModel):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name='access')
+    profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='access')
     can_write = models.BooleanField(default=False)
 
     class Meta:

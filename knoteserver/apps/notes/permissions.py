@@ -1,13 +1,23 @@
-from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.permissions import BasePermission
 
 
 class NotePermission(BasePermission):
+    READ_METHODS = {'GET', 'HEAD', 'OPTIONS'}
+    WRITE_METHODS = {'PUT', 'PATCH'}
 
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        return True
-        # return (
-        #     request.method in SAFE_METHODS and
-        #     request.user and request.user.is_authenticated and
-        #     request.user == obj.author.user
-        # )
+        if obj.author.user == request.user:
+            return True
+
+        if obj.allowed_profiles.filter(user=request.user).exists():
+            if request.method in self.READ_METHODS:
+                return True
+
+            if request.method in self.WRITE_METHODS:
+                access = obj.access.get(profile__user=request.user)
+                return access.can_write
+
+        return False

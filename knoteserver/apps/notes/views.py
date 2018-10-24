@@ -14,7 +14,7 @@ class NoteViewSet(mixins.ListModelMixin,
 
     permission_classes = (NotePermission,)
     serializer_class = NoteSerializer
-    queryset = Note.objects.select_related('author', 'author__user')
+    queryset = Note.objects.select_related('author', 'author__user').prefetch_related('access')
 
     # изменять текст заметки может только владелец и кому доступна заметка
     # изменять название заметки может только владелец
