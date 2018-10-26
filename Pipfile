@@ -19,6 +19,7 @@ django-rest-swagger = "*"
 markdown = "==2.2"
 django-taggit = "*"
 django-taggit-serializer = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
