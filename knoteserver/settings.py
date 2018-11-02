@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import re
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
@@ -71,6 +72,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'knoteserver.urls'
+APPEND_SLASH = False
 
 TEMPLATES = [
     {
@@ -194,3 +196,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+
+
+# Other variables
+
+TAG_REGEXP = re.compile(r'^([a-z]|[0-9]|[а-я]|\-|\_){1,20}$')

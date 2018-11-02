@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from taggit_serializer.serializers import TagListSerializerField
+from django.conf import settings
 
 from knoteserver.apps.notes.models import Note, NoteAccess
 from knoteserver.apps.profiles.models import Profile
@@ -31,20 +32,24 @@ class NoteAccessSerializer(serializers.ModelSerializer):
 
 class NoteSerializer(serializers.ModelSerializer):
     author = ProfileSerializer(read_only=True)
+    access = NoteAccessSerializer(many=True, read_only=True)
     tags = TagListSerializerField(required=False)
-    access = NoteAccessSerializer(many=True, required=False)
+
+    default_error_messages = {
+        'bad_tags': 'Incorrect tags'
+    }
 
     class Meta:
         model = Note
         fields = ('id', 'author', 'title', 'text', 'tags', 'access')
 
-    def validate_title(self, title):
-        print(title)
-        return title
+    def validate_tags(self, tags):
+        print('here')
+        for tag in tags:
+            if not settings.TAG_REGEXP.match(tag):
+                self.fail('bad_tags')
 
-    def validate_access(self, access):
-        print(access)
-        return access
+        return list(tags)
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -57,5 +62,4 @@ class NoteSerializer(serializers.ModelSerializer):
         )
 
         note.tags.add(*validated_data.get('tags', []))
-        note.access.add(*validated_data.get('access', []))
         return note
