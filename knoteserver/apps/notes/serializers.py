@@ -35,6 +35,9 @@ class NoteSerializer(serializers.ModelSerializer):
     access = NoteAccessSerializer(many=True, read_only=True)
     tags = TagListSerializerField(required=False)
 
+    is_owner = serializers.SerializerMethodField(read_only=True)
+    can_write = serializers.SerializerMethodField(read_only=True)
+
     default_error_messages = {
         'bad_tags': 'Incorrect tags'
     }
@@ -43,8 +46,16 @@ class NoteSerializer(serializers.ModelSerializer):
         model = Note
         exclude = ('allowed_profiles',)
 
+    def get_is_owner(self, obj):
+        return self.context['request'].user == obj.author.user
+
+    def get_can_write(self, obj):
+        if self.context['request'].user != obj.author:
+            return obj.access.get(profile__user=self.context['request'].user).can_write
+
+        return True
+
     def validate_tags(self, tags):
-        print('here')
         for tag in tags:
             if not settings.TAG_REGEXP.match(tag):
                 self.fail('bad_tags')

@@ -15,8 +15,11 @@ class NoteViewSet(mixins.ListModelMixin,
 
     permission_classes = (NotePermission,)
     serializer_class = NoteSerializer
-    queryset = Note.objects.select_related('author', 'author__user').prefetch_related('access', 'tags').order_by('-created_at')
     filter_class = NotesFilterSet
+    queryset = Note.objects\
+        .select_related('author', 'author__user')\
+        .prefetch_related('access', 'tags')\
+        .order_by('-created_at')
 
     # изменять текст заметки может только владелец и кому доступна заметка
     # изменять название заметки может только владелец
