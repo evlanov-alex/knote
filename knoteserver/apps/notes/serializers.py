@@ -41,7 +41,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('id', 'author', 'title', 'text', 'tags', 'access')
+        exclude = ('allowed_profiles',)
 
     def validate_tags(self, tags):
         print('here')
