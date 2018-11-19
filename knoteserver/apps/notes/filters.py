@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 
 from knoteserver.apps.notes.models import Note
@@ -16,6 +18,14 @@ class NotesFilterSet(filters.FilterSet):
         )
     )
 
+    def filter_queryset(self, queryset):
+        # handling username empty value here cause of filter_by_username wont be called when value is empty
+        username_value = self.form.cleaned_data['username']
+        if username_value in EMPTY_VALUES:
+            queryset = queryset.filter(author__user=self.request.user)
+
+        return super(NotesFilterSet, self).filter_queryset(queryset)
+
     class Meta:
         model = Note
         fields = ()
@@ -31,7 +41,9 @@ class NotesFilterSet(filters.FilterSet):
         return queryset
 
     def filter_by_username(self, queryset, name, value):
-        if value in EMPTY_VALUES or value == self.request.user.username:
+        user = get_object_or_404(User, username=value)
+
+        if user == self.request.user:
             return queryset.filter(author__user=self.request.user)
 
-        return queryset.filter(author__user__username=value).filter(allowed_profiles__user=self.request.user)
+        return queryset.filter(author__user=user).filter(allowed_profiles__user=self.request.user)

@@ -50,7 +50,7 @@ class NoteSerializer(serializers.ModelSerializer):
         return self.context['request'].user == obj.author.user
 
     def get_can_write(self, obj):
-        if self.context['request'].user != obj.author:
+        if self.context['request'].user != obj.author.user:
             return obj.access.get(profile__user=self.context['request'].user).can_write
 
         return True
