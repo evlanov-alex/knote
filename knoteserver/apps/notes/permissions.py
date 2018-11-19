@@ -3,7 +3,7 @@ from rest_framework.permissions import BasePermission
 
 class NotePermission(BasePermission):
     READ_METHODS = {'GET', 'HEAD', 'OPTIONS'}
-    WRITE_METHODS = {'PUT', 'PATCH'}
+    WRITE_METHODS = {'PUT', 'PATCH'} # without DELETE method, its allowed only for owner
 
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated
