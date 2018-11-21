@@ -51,12 +51,49 @@ class NotesTests(APITestCase):
 
         note = Note.objects.create(author=self.other_profile, text='text')
         note.tags.add('pupa', 'lupa')
+        NoteAccess.objects.create(note=note, profile=self.auth_profile, can_write=False)
 
         note = Note.objects.create(author=self.other_profile, text='text')
         note.tags.add('lupa')
+        NoteAccess.objects.create(note=note, profile=self.auth_profile, can_write=True)
 
-    def test_permissions(self):
+    def test_unauthorized_request(self):
         url = reverse('notes:note-list')
         response = self.anon_client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        # to be continued ...
+
+    def test_list_endpoint(self):
+        url = reverse('notes:note-list')
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # test tags parameter
+        response = self.client.get(url, {'tags': 'pupa, lupa'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+
+        response = self.client.get(url, {'tags': 'pupa'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 2)
+
+        response = self.client.get(url, {'tags': 'a' * 30})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 0)
+
+        # test username parameter
+        response = self.client.get(url, {'username': self.other_profile.user.username})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 2)
+
+        response = self.client.get(url, {'username': 'a' * 30})
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+        # test ordering parameter
+        # to be continued...
+
+    def test_retrieve_endpoint(self):
+        pass
+        # url = reverse('notes:note-detail')
+
+        # to be continued...
