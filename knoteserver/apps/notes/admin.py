@@ -15,4 +15,10 @@ class NoteAdmin(admin.ModelAdmin):
         return super().get_queryset(request).prefetch_related('tags')
 
     def tag_list(self, obj):
-        return u", ".join(o.name for o in obj.tags.all())
+        return ', '.join(o.name for o in obj.tags.all())
+
+
+@admin.register(NoteAccess)
+class NoteAccessAdmin(admin.ModelAdmin):
+    list_display = ('note', 'profile', 'can_write', 'created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at')
