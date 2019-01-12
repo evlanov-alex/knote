@@ -9,31 +9,36 @@ variables:
   POSTGRES_PASSWORD: 6qKnlOEghq
 
 flake:
+  stage: test
   script:
-  - pip install flake8  wemake-python-styleguide
-  - git diff master | flake8 --diff
+    - pip install flake8  wemake-python-styleguide
+    - git diff master | flake8 --diff
 
 test:
+  stage: test
   script:
-  # this configures Django application to use attached postgres database that is run on `postgres` host
-  - export DATABASE_URL=postgres://knote:6qKnlOEghq@postgres/knote
-  - export LC_ALL=C.UTF-8
-  - export LANG=C.UTF-8
-  - apt-get update -qy
-  - apt-get install -y python3-dev python3-pip
-  - pip3 install --no-cache-dir pipenv
-  - pipenv install --system --deploy
-  - python3 manage.py test
+    # this configures Django application to use attached postgres database that is run on `postgres` host
+    - export DATABASE_URL=postgres://knote:6qKnlOEghq@postgres/knote
+    - export LC_ALL=C.UTF-8
+    - export LANG=C.UTF-8
+    - apt-get update -qy
+    - apt-get install -y python3-dev python3-pip
+    - pip3 install --no-cache-dir pipenv
+    - pipenv install --system --deploy
+    - python3 manage.py test
+  only:
+    - master
+    - branches
 
 staging:
-  type: deploy
+  stage: deploy
   script:
-  - apt-get update -qy
-  - apt-get install -y ruby-dev
-  - gem install dpl
-  - dpl --provider=heroku --app=knote-qa --api-key=$HEROKU_STAGING_API_KEY
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=knote-qa --api-key=$HEROKU_STAGING_API_KEY
   only:
-  - master
+    - master
 
 #production:
 #  type: deploy
