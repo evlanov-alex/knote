@@ -13,11 +13,11 @@ class Note(TimestampedModel):
         'profiles.Profile',
         through='NoteAccess',
         related_name='available_notes',
-        blank=True
+        blank=True,
     )
 
     def __str__(self):
-        return 'Note: %s - %s' % (self.author.user.username, self.text[:20])
+        return 'Note: {0} - {1}'.format(self.author.user.username, self.text[:20])
 
 
 class NoteAccess(TimestampedModel):
