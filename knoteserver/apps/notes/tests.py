@@ -1,12 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase, APIClient
-from rest_framework.authtoken.models import Token
 
-from knoteserver.apps.profiles.models import Profile
 from knoteserver.apps.notes.models import Note, NoteAccess
-
+from knoteserver.apps.profiles.models import Profile
 
 UserModel = get_user_model()
 
@@ -93,7 +92,4 @@ class NotesTests(APITestCase):
         # to be continued...
 
     def test_retrieve_endpoint(self):
-        pass
-        # url = reverse('notes:note-detail')
-
-        # to be continued...
+        """To be implemented."""
