@@ -20,6 +20,8 @@ markdown = "==2.2"
 django-taggit = "*"
 django-taggit-serializer = "*"
 django-cors-headers = "*"
+wemake-python-styleguide = "*"
+"flake8" = "*"
 
 [dev-packages]
 
