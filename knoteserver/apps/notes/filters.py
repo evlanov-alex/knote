@@ -9,6 +9,7 @@ EMPTY_VALUES = (None, '', [], (), {})
 
 class NotesFilterSet(filters.FilterSet):
     """FilterSet for notes view."""
+
     tags = filters.CharFilter(method='filter_by_tags')
     username = filters.CharFilter(method='filter_by_username')
     ordering = filters.OrderingFilter(
