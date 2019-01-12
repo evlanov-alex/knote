@@ -1,3 +1,5 @@
+image: python:3.7
+
 services:
   - postgres:10
 
@@ -5,6 +7,11 @@ variables:
   POSTGRES_DB: knote
   POSTGRES_USER: knote
   POSTGRES_PASSWORD: 6qKnlOEghq
+
+flake:
+  script:
+  - pip install flake8  wemake-python-styleguide
+  - git diff master | flake8 --diff
 
 test:
   script:
