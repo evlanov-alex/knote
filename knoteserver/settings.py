@@ -16,7 +16,7 @@ import re
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # noqa: Z221
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -83,8 +83,7 @@ CORS_URLS_REGEX = r'^/api/.*$'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,7 +102,7 @@ WSGI_APPLICATION = 'knoteserver.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://knote:6qKnlOEghq@localhost/knote')
+    'default': dj_database_url.config(default='postgres://knote:6qKnlOEghq@localhost/knote'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -113,7 +112,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -150,7 +149,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            'format': '%(asctime)s %(name)s(%(lineno)d) - %(levelname)s: %(message)s'
+            'format': '%(asctime)s %(name)s(%(lineno)d) - %(levelname)s: %(message)s',
         },
     },
     'handlers': {
@@ -158,7 +157,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'level': 'DEBUG',
             'formatter': 'simple',
-            'stream': 'ext://sys.stdout'
+            'stream': 'ext://sys.stdout',
         },
         'info_file_handler': {
             'class': 'logging.handlers.RotatingFileHandler',
@@ -167,7 +166,7 @@ LOGGING = {
             'filename': 'info.log',
             'maxBytes': 10485760,
             'backupCount': 10,
-            'encoding': 'utf8'
+            'encoding': 'utf8',
         },
         'error_file_handler': {
             'class': 'logging.handlers.RotatingFileHandler',
@@ -176,13 +175,13 @@ LOGGING = {
             'filename': 'error.log',
             'maxBytes': 10485760,
             'backupCount': 10,
-            'encoding': 'utf8'
+            'encoding': 'utf8',
         },
     },
     'root': {
         'level': 'INFO',
-        'handlers': ['console', 'info_file_handler', 'error_file_handler']
-    }
+        'handlers': ['console', 'info_file_handler', 'error_file_handler'],
+    },
 }
 
 # Internationalization
