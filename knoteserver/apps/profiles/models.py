@@ -10,4 +10,4 @@ class Profile(TimestampedModel):
     image = models.URLField(blank=True)
 
     def __str__(self):
-        return 'Profile: %s' % self.user.username
+        return 'Profile: {username}'.format(username=self.user.username)

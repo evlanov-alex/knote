@@ -7,5 +7,6 @@ from knoteserver.apps.profiles.models import Profile
 
 @receiver(post_save, sender=get_user_model())
 def create_related_profile(sender, instance, created, *args, **kwargs):
+    """Signal for creating Profile after User creation."""
     if instance and created:
         instance.profile = Profile.objects.create(user=instance)

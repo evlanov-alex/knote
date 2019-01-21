@@ -5,11 +5,14 @@ from knoteserver.apps.profiles.permissions import ProfilePermission
 from knoteserver.apps.profiles.serializers import ProfileSerializer
 
 
-class ProfileViewSet(mixins.ListModelMixin,
-                     mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     viewsets.GenericViewSet):
+class ProfileViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    """API viewset for profiles."""
 
     permission_classes = (ProfilePermission,)
     serializer_class = ProfileSerializer
@@ -17,5 +20,5 @@ class ProfileViewSet(mixins.ListModelMixin,
     lookup_url_kwarg = 'username'
     lookup_field = 'user__username'
 
-    def perform_destroy(self, instance):
+    def perform_destroy(self, instance):  # noqa: D102
         instance.user.delete()

@@ -11,15 +11,17 @@ UserModel = get_user_model()
 
 
 class NotesTests(APITestCase):
-    def setUp(self):
-        password = 'qwerty11'
-        username_1 = 'main'
-        username_2 = 'test'
-        UserModel.objects.create(username=username_1, password=password)
-        UserModel.objects.create(username=username_2, password=password)
+    """Tests for notes API endpoints."""
 
-        self.auth_profile = Profile.objects.get(user__username=username_1)
-        self.other_profile = Profile.objects.get(user__username=username_2)
+    def setUp(self):  # noqa: Z213
+        password = 'qwerty11'
+        username1 = 'main'
+        username2 = 'test'
+        UserModel.objects.create(username=username1, password=password)
+        UserModel.objects.create(username=username2, password=password)
+
+        self.auth_profile = Profile.objects.get(user__username=username1)
+        self.other_profile = Profile.objects.get(user__username=username2)
 
         self.token = Token.objects.create(user=self.auth_profile.user)
 
@@ -36,7 +38,7 @@ class NotesTests(APITestCase):
             'notes_for_another': 2,
             'pupa_tag': 3,
             'lupa_tag': 4,
-            'both_tags': 2
+            'both_tags': 2,
         }
 
         note = Note.objects.create(author=self.auth_profile, text='text')
@@ -61,7 +63,7 @@ class NotesTests(APITestCase):
         response = self.anon_client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_list_endpoint(self):
+    def test_list_endpoint(self):  # noqa: Z213
         url = reverse('notes:note-list')
 
         response = self.client.get(url)
@@ -76,7 +78,7 @@ class NotesTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 2)
 
-        response = self.client.get(url, {'tags': 'a' * 30})
+        response = self.client.get(url, {'tags': 'a' * 30})  # noqa: Z432
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 0)
 
@@ -85,7 +87,7 @@ class NotesTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 2)
 
-        response = self.client.get(url, {'username': 'a' * 30})
+        response = self.client.get(url, {'username': 'a' * 30})  # noqa: Z432
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
         # test ordering parameter

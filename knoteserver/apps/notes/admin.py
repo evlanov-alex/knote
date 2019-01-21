@@ -21,7 +21,7 @@ class NoteAdmin(admin.ModelAdmin):
 
 @admin.register(NoteAccess)
 class NoteAccessAdmin(admin.ModelAdmin):
-    """ModelAdmin for controlling acces to Notes."""
+    """ModelAdmin for controlling access to Notes."""
 
     list_display = ('note', 'profile', 'can_write', 'created_at', 'updated_at')
     readonly_fields = ('created_at', 'updated_at')
