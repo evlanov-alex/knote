@@ -5,4 +5,4 @@ class AuthenticationConfig(AppConfig):
     name = 'knoteserver.apps.authentication'
 
     def ready(self):
-        import knoteserver.apps.authentication.signals
+        from knoteserver.apps.authentication import signals  # noqa: F401

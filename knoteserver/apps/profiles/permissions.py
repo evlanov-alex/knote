@@ -2,8 +2,10 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class ProfilePermission(BasePermission):
-    def has_permission(self, request, view):
+    """Permissons for profile API endpoints."""
+
+    def has_permission(self, request, view):  # noqa: D102
         return request.user and request.user.is_authenticated
 
-    def has_object_permission(self, request, view, obj):
-        return request.method in SAFE_METHODS or request.user == obj.user
+    def has_object_permission(self, request, view, profile_obj):  # noqa: D102
+        return request.method in SAFE_METHODS or request.user == profile_obj.user

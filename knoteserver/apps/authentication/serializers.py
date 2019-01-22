@@ -10,6 +10,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password')
         extra_kwargs = {'email': {'required': True}}
 
-    def create(self, validated_data):
+    def create(self, validated_data):  # noqa: D102
         user = get_user_model().objects.create_user(**validated_data)
         return user
