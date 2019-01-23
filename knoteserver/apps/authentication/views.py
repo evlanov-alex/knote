@@ -10,7 +10,8 @@ class RegistrationAPIView(views.APIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegistrationSerializer
 
-    def post(self, request):  # noqa: D102
+    def post(self, request):
+        """Implementation of registration logic."""
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()

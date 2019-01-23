@@ -20,7 +20,8 @@ class ProfileViewSet(
     lookup_url_kwarg = 'username'
     lookup_field = 'user__username'
 
-    def perform_destroy(self, instance):  # noqa: D102
+    def perform_destroy(self, instance):
+        """Deleting user with his profile."""
         instance.user.delete()
 
 
@@ -30,6 +31,7 @@ class CurrentUserAPIView(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileSerializer
 
-    def get_object(self):  # noqa: D102
+    def get_object(self):
+        """Getting current user's profile."""
         profile = Profile.objects.select_related('user').get(user=self.request.user)
         return profile

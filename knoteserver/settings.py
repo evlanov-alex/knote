@@ -27,7 +27,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'o+h8&pfe5%uq*s9#w)7%jvp(0l4rv9o5icks^$5r-dnbj7yy&c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 if DEBUG:
     ALLOWED_HOSTS = ['*']
