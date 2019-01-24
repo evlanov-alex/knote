@@ -30,7 +30,7 @@ class NotesFilterSet(filters.FilterSet):
         if username_value in EMPTY_VALUES:
             queryset = queryset.filter(author__user=self.request.user)
 
-        return super(NotesFilterSet, self).filter_queryset(queryset)
+        return super().filter_queryset(queryset)
 
     def filter_by_tags(self, queryset, name, tags):
         """Filter notes by tags."""
