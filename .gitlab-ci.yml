@@ -12,7 +12,7 @@ flake:
   stage: test
   script:
     - pip install flake8  wemake-python-styleguide
-    - git diff master | flake8 --diff
+    - git diff origin/master | flake8 --diff
 
 test:
   stage: test
