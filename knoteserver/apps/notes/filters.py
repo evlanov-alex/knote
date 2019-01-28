@@ -19,6 +19,10 @@ class NotesFilterSet(filters.FilterSet):
         ),
     )
 
+    class Meta:  # noqa: Z306,D106
+        model = Note
+        fields = ()
+
     def filter_queryset(self, queryset):
         """Filter out empty usernames."""
         # handling username empty value here cause of filter_by_username wont be called when value is empty
@@ -26,11 +30,7 @@ class NotesFilterSet(filters.FilterSet):
         if username_value in EMPTY_VALUES:
             queryset = queryset.filter(author__user=self.request.user)
 
-        return super(NotesFilterSet, self).filter_queryset(queryset)
-
-    class Meta:  # noqa: Z306,D106
-        model = Note
-        fields = ()
+        return super().filter_queryset(queryset)
 
     def filter_by_tags(self, queryset, name, tags):
         """Filter notes by tags."""
@@ -44,7 +44,7 @@ class NotesFilterSet(filters.FilterSet):
         return queryset
 
     def filter_by_username(self, queryset, name, username):
-        """Filter notes b username."""
+        """Logic for checking access to notes."""
         user = get_object_or_404(User, username=username)
 
         if user == self.request.user:
